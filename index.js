@@ -13,7 +13,7 @@ const db = mysql.createConnection({
   database: "the sense",
 });
 
-app.get("/get", (req, res) => {
+app.get("/getUsers", (req, res) => {
   db.query("SELECT * FROM users", (err, result) => {
     if (err) {
       console.log(err);
@@ -24,21 +24,22 @@ app.get("/get", (req, res) => {
   });
 });
 
-app.post("/create", (req, res) => {
-  const name = req.body.name;
-  const age = req.body.age;
-  const country = req.body.country;
-  const position = req.body.position;
-  const wage = req.body.wage;
+
+app.post("/createUsers", (req, res) => {
+  const prenom = req.body.prenom;
+  const nom = req.body.nom;
+  const email = req.body.email;
+  const password = req.body.password;
 
   db.query(
-    "INSERT INTO employees (name, age, country, position, wage) VALUES (?,?,?,?,?)",
-    [name, age, country, position, wage],
+    "INSERT INTO users (prenom, nom, email, password) VALUES (?,?,?,?)",
+    [prenom, nom, email, password],
     (err, result) => {
       if (err) {
         console.log(err);
       } else {
         res.send("Values Inserted");
+        console.log("Succesfully insert Users")
       }
     }
   );
@@ -71,6 +72,6 @@ app.delete("/delete/:id", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Yey, your server is running on port 3000");
+app.listen(3001, () => {
+  console.log("Yey, your server is running on port 3001");
 });
