@@ -24,6 +24,21 @@ app.get("/getUsers", (req, res) => {
   });
 });
 
+app.post("/login", (req, res) => {
+
+  const email = req.body.email;
+  const password = req.body.password;
+
+  db.query("SELECT * FROM users WHERE password=? AND email=?",[password,email], (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result)
+      res.send(result);
+    }
+  });
+});
+
 app.post("/createUsers", (req, res) => {
   const prenom = req.body.prenom;
   const nom = req.body.nom;
