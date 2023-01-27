@@ -24,7 +24,6 @@ app.get("/getUsers", (req, res) => {
   });
 });
 
-
 app.post("/createUsers", (req, res) => {
   const prenom = req.body.prenom;
   const nom = req.body.nom;
