@@ -32,6 +32,8 @@ app.post("/login", (req, res) => {
   db.query("SELECT * FROM users WHERE password=? AND email=?",[password,email], (err, result) => {
     if (err) {
       console.log(err);
+    } else if (result==[]) {
+      console.log("pas d'utilisateur trouvé")
     } else {
       console.log(result)
       res.send(result);
