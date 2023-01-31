@@ -77,17 +77,24 @@ app.post("/createUsers", (req, res) => {
   );
 });
 
-app.put("/update", (req, res) => {
-  const id = req.body.id;
-  const wage = req.body.wage;
+app.put("/updateUser", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const prenom = req.body.prenom;
+  const nom = req.body.nom;
+  const emailUser = req.body.emailUser;
+  const passwordUser = req.body.passwordUser;
   db.query(
-    "UPDATE employees SET wage = ? WHERE id = ?",
-    [wage, id],
+    "UPDATE users SET email = ?, password = ?, prenom = ?, nom = ? WHERE email = ? AND password = ?",
+    [email, password, prenom, nom, emailUser, passwordUser],
     (err, result) => {
       if (err) {
         console.log(err);
+      } else if (result=="") {
+        console.log("pas de d'utilisateur trouvé")
       } else {
         res.send(result);
+        console.log(result)
       }
     }
   );
