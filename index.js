@@ -24,6 +24,23 @@ app.get("/getUsers", (req, res) => {
   });
 });
 
+app.post("/getReservation", (req, res) => {
+
+  const idUser = req.body.idUser;
+
+  db.query("SELECT * FROM reservation WHERE id_user=?",[idUser], (err, result) => {
+    if (err) {
+      console.log(err);
+    } else if (result=="") {
+      console.log("pas de reservations trouvé")
+      console.log(idUser)
+    } else {
+      console.log(result)
+      res.send(result);
+    }
+  });
+});
+
 app.post("/login", (req, res) => {
 
   const email = req.body.email;
