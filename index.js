@@ -77,6 +77,65 @@ app.post("/createUsers", (req, res) => {
   );
 });
 
+app.post("/createReservation", (req, res) => {
+  const horaire = req.body.horaire;
+  const day = req.body.day;
+  const month = req.body.month;
+  const idUser = req.body.idUser;
+  const idSalle = req.body.idSalle;
+  const idExperience = req.body.idExperience;
+
+  db.query(
+    "INSERT INTO reservation (id_user, horaire, day, month, id_salle, id_experience) VALUES (?,?,?,?,?,?)",
+    [idUser, horaire, day, month, idSalle, idExperience],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send("Values Inserted");
+        console.log("Succesfully insert Reservation")
+      }
+    }
+  );
+});
+
+app.post("/idExp", (req, res) => {
+
+  const expName = req.body.expName;
+
+  db.query("SELECT * FROM experience WHERE nom=?",[expName], (err, result) => {
+    if (err) {
+      console.log(err);
+    } else if (result=="") {
+      console.log("pas de salle trouvé")
+    } else {
+      console.log(result)
+      res.send(result);
+    }
+  });
+});
+
+app.post("/searchReserv", (req, res) => {
+
+  const idSalle = req.body.idSalle;
+  const horaire = req.body.horaire;
+  const day = req.body.day;
+  const month = req.body.month;
+
+  db.query("SELECT * FROM reservation WHERE id_salle=? AND month=? AND day=? AND horaire=?",[idSalle, month, Number(day), horaire], (err, result) => {
+    if (err) {
+      console.log(err);
+    } else if (result=="") {
+      console.log("pas de reservation trouvé")
+      console.log(result)
+      res.send(result);
+    } else {
+      console.log("reservation déja prise")
+      res.send("Réservation déja prise");
+    }
+  });
+});
+
 app.put("/updateUser", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
